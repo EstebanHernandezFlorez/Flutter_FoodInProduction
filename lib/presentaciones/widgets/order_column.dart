@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../screens/reservas.dart';
+import '../screens/insumo.dart'; // Página de insumo
+import '../screens/empleado.dart'; // Página de empleados
+import '../screens/reservas.dart'; // Página de reservas
 import '../screens/order_production.dart'; // Página de órdenes de producción
-import '../screens/rendimiento.dart'; // Página de rendimiento
 import '../screens/landing_page_screen.dart'; // Página de inicio o landing
-import './editar_perfil.dart';
 
 class PaginaPrincipalWidget extends StatefulWidget {
   const PaginaPrincipalWidget({super.key});
@@ -14,27 +14,29 @@ class PaginaPrincipalWidget extends StatefulWidget {
 }
 
 class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
+  // Índice para controlar la página seleccionada
   int _selectedIndex = 0;
 
   // Lista de páginas a las que se puede navegar
   final List<Widget> _pages = [
-    const LandingPageScreen(),
-    const OrderProductionPage(),
-    const ReservasWidget(),
-    const RendimientoEmpleadosWidget(),
-    const EditWidget() // Página de inicio
+    const LandingPageScreen(),  // Página de inicio
+    const InsumosPage(),         // Página de insumo
+    const EmployeesPage(),       // Página de empleados
+    const ReservasWidget(),     // Página de reservas
+    const OrderProductionPage(), // Página de órdenes de producción
   ];
 
   // Cambiar de página según el índice seleccionado
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index;  // Actualiza la página seleccionada
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: _pages[_selectedIndex], // Muestra la página según el índice seleccionado
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -43,22 +45,21 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
             label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.food_bank),
-            label: 'Órdenes de producción',
+            icon: Icon(Icons.local_offer), // Icono de insumo
+            label: 'Insumo',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_month_rounded),
+            icon: Icon(Icons.account_circle), // Icono de empleado
+            label: 'Empleado',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month_rounded), // Icono de reservas
             label: 'Reservas',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'Rendimiento',
+            icon: Icon(Icons.food_bank), // Icono de producción
+            label: 'Producción',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.adb_rounded),
-            label: 'Mi Perfil',
-          ),
-          
         ],
         currentIndex: _selectedIndex, // Índice actual
         selectedItemColor: Colors.blue, // Color de los íconos seleccionados

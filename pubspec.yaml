@@ -5,16 +5,16 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
+  fl_chart: ^0.69.2
   flutter:
     sdk: flutter
-  flutter_application_1: ^0.0.2
   flutter_test:
     sdk: flutter
   smooth_page_indicator: ^1.2.0+3
-  table_calendar: ^3.0.0 # Esta es la dependencia correcta para el calendario
-  flutter_lints: ^2.0.0 # Usa la última versión disponible
+  table_calendar: ^3.0.0
+  flutter_lints: ^2.0.0
 
 flutter:
   assets:
-    - lib/assets/images/IconoFIP.png # Asegúrate de que esta ruta sea correcta
+    - lib/assets/images/IconoFIP.png  # Asegúrate de que esta ruta sea correcta
   uses-material-design: true

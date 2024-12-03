@@ -9,12 +9,29 @@ class LandingPageScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,  // Desactivamos el retroceso automático
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              //cerrar sesión
+          // Menú desplegable en el AppBar
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'Cerrar sesión') {
+                // Lógica para cerrar sesión
+              }
+            },
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem<String>(
+                  value: 'Cerrar sesión',
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(width: 8),
+                      Text('Cerrar sesión'),
+                    ],
+                  ),
+                ),
+                // Puedes agregar más opciones aquí si lo necesitas
+              ];
             },
           ),
         ],
@@ -33,6 +50,7 @@ class LandingPageScreen extends StatelessWidget {
           ),
         ),
       ),
+      
     );
   }
 }
