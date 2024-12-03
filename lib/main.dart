@@ -14,6 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,  // Elimina el banner de depuración
       title: 'Mi App',
       home: LoginWidget(),  // Este es tu login
+      // initialRoute: 
     );
+   
   }
 }
