@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_food/presentaciones/widgets/ForgotPassword.dart';
 
 // Aquí podrías importar las pantallas de destino.
-import '../widgets/order_column.dart';  // Asegúrate de tener esta clase
-import '../screens/index_empleado.dart';   // Asegúrate de tener esta clase
-
+import '../widgets/order_column.dart'; // Asegúrate de tener esta clase
+import '../screens/index_empleado.dart'; // Asegúrate de tener esta clase
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
@@ -130,6 +130,25 @@ class _LoginWidgetState extends State<LoginWidget> {
                               ),
                             ),
                           ),
+
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                  onPressed: () {
+                                    // Aquí puedes agregar la lógica para restablecer la contraseña
+                                    Navigator.push(
+                                        context,
+                                        //MaterialPage Route se utiliza para navegar entre pantallas
+                                        MaterialPageRoute(
+                                          //
+                                          builder: (context) =>
+                                              const Forgotpassword(),
+                                        ));
+                                  },
+                                  child: const Text(
+                                    'Olvide mi contraseña',
+                                    style: TextStyle(color: Colors.blue),
+                                  ))),
                           const SizedBox(height: 32.0),
                           // Botón de iniciar sesión
                           ElevatedButton(
