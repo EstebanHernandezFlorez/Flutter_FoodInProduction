@@ -11,11 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,  // Elimina el banner de depuración
+      debugShowCheckedModeBanner: false, // Elimina el banner de depuración
       title: 'Mi App',
-      home: LoginWidget(),  // Este es tu login
-      // initialRoute: 
+      home: LoginWidget(), // Este es tu login
+      // initialRoute:
     );
-   
   }
 }
