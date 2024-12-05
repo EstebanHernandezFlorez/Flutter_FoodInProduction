@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../screens/insumo.dart'; // Página de insumo
 import '../screens/empleado.dart'; // Página de empleados
 import '../screens/reservas.dart'; // Página de reservas
-import '../screens/order_production.dart'; // Página de órdenes de producción
+import '../screens/OrderProductionPage.dart'; // Página de órdenes de producción
 import '../screens/landing_page_screen.dart'; // Página de inicio o landing
 
 class PaginaPrincipalWidget extends StatefulWidget {
@@ -18,11 +18,11 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
 
   // Lista de páginas a las que se puede navegar
   final List<Widget> _pages = [
-    const LandingPageScreen(),  // Página de inicio
-    const InsumosPage(),         // Página de insumo
-    const EmployeesPage(),       // Página de empleados
-    const ReservasWidget(),     // Página de reservas
-    const OrderProductionPage(), // Página de órdenes de producción
+    const LandingPageScreen(), // Página de inicio
+    const InsumosPage(), // Página de insumo
+    const EmployeesPage(), // Página de empleados
+    const ReservasWidget(), // Página de reservas
+     OrderProductionPage(), // Página de órdenes de producción
   ];
 
   // Color vino tinto
@@ -31,7 +31,7 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
   // Cambiar de página según el índice seleccionado
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;  // Actualiza la página seleccionada
+      _selectedIndex = index; // Actualiza la página seleccionada
     });
   }
 
@@ -68,8 +68,8 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
           ),
         ],
         currentIndex: _selectedIndex, // Índice actual
-        selectedItemColor: _selectedColor, // Color vino tinto rojo
-        unselectedItemColor: Colors.black, // Cambiar los íconos no seleccionados a negro
+        selectedItemColor: Colors.blue, // Color de los íconos seleccionados
+        unselectedItemColor: Colors.grey, // Color de los íconos no seleccionados
         onTap: _onItemTapped, // Cambia de página al tocar un ícono
       ),
     );
