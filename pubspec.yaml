@@ -11,9 +11,11 @@ dependencies:
   flutter_test:
     sdk: flutter
   smooth_page_indicator: ^1.2.0+3
-  table_calendar: ^3.0.0
+  
   flutter_lints: ^2.0.0
-
+  table_calendar: ^3.0.0 
+  shared_preferences: ^2.0.15
+  provider: ^6.0.5
 flutter:
   assets:
     - lib/assets/images/IconoFIP.png  # Asegúrate de que esta ruta sea correcta
