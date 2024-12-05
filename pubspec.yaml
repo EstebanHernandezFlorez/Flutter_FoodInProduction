@@ -24,4 +24,5 @@ flutter:
     - lib/assets/images/solomo.jpg
     - lib/assets/images/tacos.jpg
     - lib/assets/images/burrito.jpg
+    - lib/assets/images/empleado.png
   uses-material-design: true

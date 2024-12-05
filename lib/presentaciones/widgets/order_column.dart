@@ -9,6 +9,7 @@ class PaginaPrincipalWidget extends StatefulWidget {
   const PaginaPrincipalWidget({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _PaginaPrincipalWidgetState createState() => _PaginaPrincipalWidgetState();
 }
 
@@ -22,7 +23,7 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
     const InsumosPage(), // Página de insumo
     const EmployeesPage(), // Página de empleados
     const ReservasWidget(), // Página de reservas
-     OrderProductionPage(), // Página de órdenes de producción
+     const OrderProductionPage(), // Página de órdenes de producción
   ];
 
   // Color vino tinto
