@@ -60,10 +60,6 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Reservas'),
-          elevation: 0.0,
-        ),
         body: Column(
           children: [
             // TabBar para cambiar entre vistas de Mes y Semana

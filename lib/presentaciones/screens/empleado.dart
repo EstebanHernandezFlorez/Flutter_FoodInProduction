@@ -13,19 +13,19 @@ class _EmployeesPageState extends State<EmployeesPage> {
     {
       'nombre': 'Juan Pérez',
       'cargo': 'Chef Principal',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/empleado.png',
       'activo': true,
     },
     {
       'nombre': 'María González',
       'cargo': 'Sous Chef',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/empleado.png',
       'activo': false,
     },
     {
       'nombre': 'Carlos Rodríguez',
       'cargo': 'Cocinero',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/empleado.png',
       'activo': true,
     },
   ];
@@ -64,9 +64,6 @@ class _EmployeesPageState extends State<EmployeesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Empleados'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
