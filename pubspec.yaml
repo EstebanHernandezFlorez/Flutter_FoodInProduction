@@ -13,8 +13,15 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   table_calendar: ^3.0.0
   flutter_lints: ^2.0.0
+  intl: ^0.18.1
 
 flutter:
   assets:
-    - lib/assets/images/IconoFIP.png  # Asegúrate de que esta ruta sea correcta
+    - lib/assets/images/IconoFIP.png 
+    - lib/assets/images/comida2.jpg # Asegúrate de que esta ruta sea correcta
+    - lib/assets/images/carneHamburguesa.jpg
+    - lib/assets/images/costillas.jpg
+    - lib/assets/images/solomo.jpg
+    - lib/assets/images/tacos.jpg
+    - lib/assets/images/burrito.jpg
   uses-material-design: true

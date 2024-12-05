@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
+import '../screens/performance_section.dart';
 
 class InsumoWidget extends StatelessWidget {
   final String nombre;
@@ -33,6 +33,7 @@ class InsumoWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Sección superior: Nombre, imagen y descripción
               Row(
                 children: [
                   ClipRRect(
@@ -40,120 +41,68 @@ class InsumoWidget extends StatelessWidget {
                     child: Image.network(imagenUrl, width: 100, height: 100),
                   ),
                   const SizedBox(width: 16.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        nombre,
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        descripcion,
-                        style: const TextStyle(fontSize: 16, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        activo ? 'Activo' : 'Inactivo',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: activo ? Colors.green : Colors.red,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          nombre,
+                          style: const TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 8.0),
+                        Text(
+                          descripcion,
+                          style: const TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          activo ? 'Activo' : 'Inactivo',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: activo ? Colors.green : Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 32.0),
-              const Text('Gráfico de Dinero',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16.0),
-              _buildMoneyChart(),
-              const SizedBox(height: 32.0),
-              const Text('Gráfico de Porcentaje',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16.0),
-              _buildPercentageChart(),
-              const SizedBox(height: 32.0),
-              const Text('Gráfico de Tiempo de Preparación',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 16.0),
-              _buildTimeChart(),
+
+              // Sección de rendimiento
+              const Text(
+                'Rendimiento del Insumo',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20.0),
+
+              // Rendimiento en Porcentaje
+              const PerformanceSection(
+                title: 'Porcentaje de Éxito',
+                value: '80%',
+                color: Colors.blue,
+                chartType: 'percentage',
+              ),
+
+              // Rendimiento en Dinero
+              const PerformanceSection(
+                title: 'Ingreso Estimado',
+                value: '\$1,200',
+                color: Colors.green,
+                chartType: 'money',
+              ),
+
+              // Rendimiento en Tiempo
+              const PerformanceSection(
+                title: 'Tiempo de Preparación',
+                value: '15 min',
+                color: Colors.orange,
+                chartType: 'time',
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildMoneyChart() {
-    return LineChart(
-      LineChartData(
-        gridData: const FlGridData(show: false),
-        titlesData: const FlTitlesData(show: false),
-        borderData: FlBorderData(show: false),
-        minX: 0,
-        maxX: 10,
-        minY: 0,
-        maxY: 1000,
-        lineBarsData: [
-          LineChartBarData(
-            spots: [
-              const FlSpot(0, 200),
-              const FlSpot(2, 500),
-              const FlSpot(5, 750),
-              const FlSpot(7, 1000),
-              const FlSpot(9, 900),
-            ],
-            isCurved: true,
-            color: Colors.blue,
-            barWidth: 4,
-            isStrokeCapRound: true,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPercentageChart() {
-    return PieChart(
-      PieChartData(
-        sections: [
-          PieChartSectionData(value: 40, title: '40%', color: Colors.blue),
-          PieChartSectionData(value: 30, title: '30%', color: Colors.green),
-          PieChartSectionData(value: 30, title: '30%', color: Colors.red),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTimeChart() {
-    return BarChart(
-      BarChartData(
-        gridData: const FlGridData(show: false),
-        titlesData: const FlTitlesData(show: false),
-        borderData: FlBorderData(show: false),
-        barGroups: [
-          BarChartGroupData(
-            x: 0,
-            barRods: [
-              BarChartRodData(fromY: 5, toY: 5, color: Colors.blue, width: 16)
-            ],
-          ),
-          BarChartGroupData(
-            x: 1,
-            barRods: [
-              BarChartRodData(fromY: 10, toY: 10, color: Colors.green, width: 16)
-            ],
-          ),
-          BarChartGroupData(
-            x: 2,
-            barRods: [
-              BarChartRodData(fromY: 7, toY: 7, color: Colors.red, width: 16)
-            ],
-          ),
-        ],
       ),
     );
   }

@@ -15,9 +15,7 @@ class _OrderProductionPageState extends State<OrderProductionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Órdenes de Producción'),
-      ),
+
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
