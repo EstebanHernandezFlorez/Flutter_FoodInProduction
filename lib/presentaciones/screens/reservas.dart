@@ -1,43 +1,20 @@
+
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart'; // Importamos TableCalendar
-import 'reservation_form.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
-// Pantalla de creación de reserva (Formulario)
-class CreateReservationPage extends StatelessWidget {
-  const CreateReservationPage({super.key});
+class Reservation {
+  final String title;
+  final DateTime dateTime;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Crear Reserva'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text(
-              'Formulario para crear una reserva',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16.0),
-            const ReservationForm(),  // Llamamos al formulario aquí
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Volver a la pantalla principal
-              },
-              child: const Text('Guardar'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  Reservation({
+    required this.title,
+    required this.dateTime,
+  });
 }
 
 class ReservasWidget extends StatefulWidget {
-  const ReservasWidget({super.key});
+  const ReservasWidget({Key? key}) : super(key: key);
 
   @override
   State<ReservasWidget> createState() => _ReservasWidgetState();
@@ -45,14 +22,22 @@ class ReservasWidget extends StatefulWidget {
 
 class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProviderStateMixin {
   DateTime _selectedDay = DateTime.now();
-  DateTime? _focusedDay;
+  DateTime _focusedDay = DateTime.now();
   late TabController _tabController;
+
+  List<Reservation> _reservations = [];
 
   @override
   void initState() {
     super.initState();
-    _focusedDay = _selectedDay;
-    _tabController = TabController(length: 2, vsync: this); // Para el TabBar de Mes y Semana
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  void _addReservation(String title, DateTime dateTime) {
+    setState(() {
+      _reservations.add(Reservation(title: title, dateTime: dateTime));
+      _reservations.sort((a, b) => a.dateTime.compareTo(b.dateTime));
+    });
   }
 
   @override
@@ -60,57 +45,60 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Reservas'),
+        ),
         body: Column(
           children: [
             // TabBar para cambiar entre vistas de Mes y Semana
             TabBar(
               controller: _tabController,
               tabs: const [
-                Tab(text: 'Month'),
-                Tab(text: 'Week'),
+                Tab(text: 'Mes'),
+                Tab(text: 'Semana'),
               ],
             ),
-            // El TabBarView donde se muestran las vistas del calendario
-            Expanded(
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.45,
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  // Vista de Mes
                   _buildMonthView(),
-                  // Vista de Semana
                   _buildWeekView(),
                 ],
               ),
             ),
-            // Aquí se muestra el "Coming Up" debajo del calendario
             const Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(8.0),
               child: Text(
-                'Coming Up',
+                'Próximas reservas',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            const SizedBox(height: 8.0), // Espacio entre "Coming Up" y las reservas
             Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  _buildReservationCard('Boda', '2:20pm', 'Wed, 03/08/2022', Colors.blueAccent),
-                  _buildReservationCard('Cumpleaños', '5:20pm', 'Wed, 03/08/2022', Colors.greenAccent),
-                ],
+              child: ListView.builder(
+                itemCount: _reservations.length,
+                itemBuilder: (context, index) {
+                  final reservation = _reservations[index];
+                  return _buildReservationCard(reservation);
+                },
               ),
             ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Navegar al formulario de creación de reserva
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const CreateReservationPage()),
+              MaterialPageRoute(
+                builder: (context) => CreateReservationPage(
+                  onSave: _addReservation,
+                  initialDate: _selectedDay,
+                ),
+              ),
             );
           },
           child: const Icon(Icons.add),
@@ -119,10 +107,9 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
     );
   }
 
-  // Vista de calendario en modo mes
   Widget _buildMonthView() {
     return TableCalendar(
-      focusedDay: _focusedDay!,
+      focusedDay: _focusedDay,
       firstDay: DateTime(2020),
       lastDay: DateTime(2025),
       selectedDayPredicate: (day) {
@@ -133,16 +120,18 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
         });
-        // Navegar al formulario de creación de reserva al seleccionar un día
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CreateReservationPage()),
+          MaterialPageRoute(
+            builder: (context) => CreateReservationPage(
+              onSave: _addReservation,
+              initialDate: selectedDay,
+            ),
+          ),
         );
       },
       onPageChanged: (focusedDay) {
-        setState(() {
-          _focusedDay = focusedDay;
-        });
+        _focusedDay = focusedDay;
       },
       calendarStyle: const CalendarStyle(
         todayDecoration: BoxDecoration(
@@ -156,17 +145,24 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
         weekendTextStyle: TextStyle(
           color: Colors.red,
         ),
+        cellMargin: EdgeInsets.all(4),
+        cellPadding: EdgeInsets.all(2),
       ),
       headerStyle: const HeaderStyle(
         formatButtonVisible: false,
+        titleCentered: true,
+        titleTextStyle: TextStyle(fontSize: 16),
+        leftChevronIcon: Icon(Icons.chevron_left, size: 20),
+        rightChevronIcon: Icon(Icons.chevron_right, size: 20),
       ),
+      daysOfWeekHeight: 20,
+      rowHeight: 35,
     );
   }
 
-  // Vista de calendario en modo semana
   Widget _buildWeekView() {
     return TableCalendar(
-      focusedDay: _focusedDay!,
+      focusedDay: _focusedDay,
       firstDay: DateTime(2020),
       lastDay: DateTime(2025),
       selectedDayPredicate: (day) {
@@ -177,18 +173,21 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
           _selectedDay = selectedDay;
           _focusedDay = focusedDay;
         });
-        // Navegar al formulario de creación de reserva al seleccionar un día
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const CreateReservationPage()),
+          MaterialPageRoute(
+            builder: (context) => CreateReservationPage(
+              onSave: _addReservation,
+              initialDate: selectedDay,
+            ),
+          ),
         );
       },
       onPageChanged: (focusedDay) {
-        setState(() {
-          _focusedDay = focusedDay;
-        });
+        _focusedDay = focusedDay;
       },
       availableGestures: AvailableGestures.all,
+      calendarFormat: CalendarFormat.week,
       calendarStyle: const CalendarStyle(
         todayDecoration: BoxDecoration(
           color: Colors.blueAccent,
@@ -201,22 +200,29 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
         weekendTextStyle: TextStyle(
           color: Colors.red,
         ),
+        cellMargin: EdgeInsets.all(4),
+        cellPadding: EdgeInsets.all(2),
       ),
       headerStyle: const HeaderStyle(
         formatButtonVisible: false,
+        titleCentered: true,
+        titleTextStyle: TextStyle(fontSize: 16),
+        leftChevronIcon: Icon(Icons.chevron_left, size: 20),
+        rightChevronIcon: Icon(Icons.chevron_right, size: 20),
       ),
       daysOfWeekStyle: const DaysOfWeekStyle(
-        weekdayStyle: TextStyle(color: Colors.black),
-        weekendStyle: TextStyle(color: Colors.red),
+        weekdayStyle: TextStyle(color: Colors.black, fontSize: 12),
+        weekendStyle: TextStyle(color: Colors.red, fontSize: 12),
       ),
-      weekNumbersVisible: false, // Deshabilita la visualización de los números de semana
+      weekNumbersVisible: false,
+      daysOfWeekHeight: 20,
+      rowHeight: 35,
     );
   }
 
-  // Función para construir las tarjetas de reserva
-  Widget _buildReservationCard(String title, String time, String date, Color color) {
+  Widget _buildReservationCard(Reservation reservation) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
@@ -231,35 +237,16 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    reservation.title,
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Row(
-                    children: [
-                      Card(
-                        color: color,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                          child: Text(
-                            time,
-                            style: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Text(
-                        date,
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    ],
+                  const SizedBox(height: 4),
+                  Text(
+                    DateFormat('yyyy-MM-dd HH:mm').format(reservation.dateTime),
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
                   ),
                 ],
               ),
@@ -267,17 +254,129 @@ class _ReservasWidgetState extends State<ReservasWidget> with SingleTickerProvid
                 width: 50.0,
                 height: 50.0,
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.blue,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: const Icon(
-                  Icons.add_photo_alternate_outlined,
-                  color: Colors.black,
+                  Icons.event,
+                  color: Colors.white,
                   size: 24.0,
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CreateReservationPage extends StatefulWidget {
+  final Function(String, DateTime) onSave;
+  final DateTime initialDate;
+
+  const CreateReservationPage({
+    Key? key,
+    required this.onSave,
+    required this.initialDate,
+  }) : super(key: key);
+
+  @override
+  State<CreateReservationPage> createState() => _CreateReservationPageState();
+}
+
+class _CreateReservationPageState extends State<CreateReservationPage> {
+  final _titleController = TextEditingController();
+  late DateTime _selectedDate;
+  late TimeOfDay _selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = widget.initialDate;
+    _selectedTime = TimeOfDay.now();
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+    if (picked != null && picked != _selectedTime) {
+      setState(() {
+        _selectedTime = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Crear Reserva'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(labelText: 'Título'),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Text(
+                  'Fecha: ${DateFormat('yyyy-MM-dd').format(_selectedDate)}',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.calendar_today),
+                  onPressed: () => _selectDate(context),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  'Hora: ${_selectedTime.format(context)}',
+                  style: const TextStyle(fontSize: 16),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.access_time),
+                  onPressed: () => _selectTime(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                if (_titleController.text.isNotEmpty) {
+                  widget.onSave(
+                    _titleController.text,
+                    DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day,
+                        _selectedTime.hour, _selectedTime.minute),
+                  );
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text('Guardar'),
+            ),
+          ],
         ),
       ),
     );
