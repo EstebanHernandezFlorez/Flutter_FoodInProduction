@@ -9,7 +9,8 @@ class LandingPageScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,  // Desactivamos el retroceso automático
+        automaticallyImplyLeading:
+            false, // Desactivamos el retroceso automático
         actions: [
           // Menú desplegable en el AppBar
           PopupMenuButton<String>(
@@ -50,7 +51,6 @@ class LandingPageScreen extends StatelessWidget {
           ),
         ),
       ),
-      
     );
   }
 }

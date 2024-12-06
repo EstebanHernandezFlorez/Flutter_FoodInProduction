@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/insumo_widget.dart'; // Asegúrate de importar la página de detalles
 
+
 class InsumosPage extends StatefulWidget {
   const InsumosPage({super.key});
 
@@ -11,33 +12,33 @@ class InsumosPage extends StatefulWidget {
 class _InsumosPageState extends State<InsumosPage> {
   final List<Map<String, dynamic>> insumos = [
     {
-      'nombre': 'Insumo 1',
+      'nombre': 'Carne de Hamburguesa',
       'descripcion': 'Descripción del insumo 1',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/carneHamburguesa.jpg',  // Ruta correcta
       'activo': true,
     },
     {
-      'nombre': 'Insumo 2',
+      'nombre': 'Carne de los tacos',
       'descripcion': 'Descripción del insumo 2',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/tacos.jpg',  // Ruta correcta
       'activo': false,
     },
     {
-      'nombre': 'Insumo 3',
+      'nombre': 'Costillas',
       'descripcion': 'Descripción del insumo 3',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/costillas.jpg',  // Ruta correcta
       'activo': true,
     },
     {
-      'nombre': 'Insumo 4',
+      'nombre': 'Solomo',
       'descripcion': 'Descripción del insumo 4',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/solomo.jpg',  // Ruta correcta
       'activo': false,
     },
     {
-      'nombre': 'Insumo 5',
+      'nombre': 'Carne del Burrito',
       'descripcion': 'Descripción del insumo 5',
-      'imagen': 'https://via.placeholder.com/150',
+      'imagen': 'lib/assets/images/burrito.jpg',  // Ruta correcta
       'activo': true,
     },
   ];
@@ -56,9 +57,8 @@ class _InsumosPageState extends State<InsumosPage> {
   void _filterInsumos(String query) {
     setState(() {
       filteredInsumos = insumos
-          .where((insumo) => insumo['nombre']
-              .toLowerCase()
-              .contains(query.toLowerCase()))
+          .where((insumo) =>
+              insumo['nombre'].toLowerCase().contains(query.toLowerCase()))
           .toList();
       currentPage = 0; // Resetear a la primera página al filtrar
     });
@@ -76,9 +76,6 @@ class _InsumosPageState extends State<InsumosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Insumos'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -90,7 +87,8 @@ class _InsumosPageState extends State<InsumosPage> {
                 labelText: 'Buscar insumo',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               ),
             ),
             const SizedBox(height: 16.0),
@@ -125,13 +123,14 @@ class _InsumosPageState extends State<InsumosPage> {
                 Text('Página ${currentPage + 1}'),
                 IconButton(
                   icon: const Icon(Icons.arrow_forward),
-                  onPressed: (currentPage + 1) * itemsPerPage < filteredInsumos.length
-                      ? () {
-                          setState(() {
-                            currentPage++;
-                          });
-                        }
-                      : null,
+                  onPressed:
+                      (currentPage + 1) * itemsPerPage < filteredInsumos.length
+                          ? () {
+                              setState(() {
+                                currentPage++;
+                              });
+                            }
+                          : null,
                 ),
               ],
             ),
@@ -141,68 +140,96 @@ class _InsumosPageState extends State<InsumosPage> {
     );
   }
 
-  Widget _buildInsumoCard(String nombre, String descripcion, String imagenUrl, bool activo, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: GestureDetector(
-        onTap: () {
-          // Navegar a la página de detalles del insumo
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => InsumoWidget(
-                nombre: nombre,
-                descripcion: descripcion,
-                imagenUrl: imagenUrl,
-                activo: activo,
+  Widget _buildInsumoCard(String nombre, String descripcion, String imagenUrl,
+    bool activo, BuildContext context) {
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 12.0),  // Aumentar margen
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),  // Card más redondeada
+        ),
+        elevation: 6.0,  // Sombra más fuerte para mayor profundidad
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => InsumoWidget(
+                  nombre: nombre,
+                  descripcion: descripcion,
+                  imagenUrl: imagenUrl,
+                  activo: activo,
+                ),
               ),
-            ),
-          );
-        },
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          elevation: 6.0,
+            );
+          },
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),  // Aumentamos el padding interno
             child: Row(
               children: [
-                ClipOval(
-                  child: Image.network(
-                    imagenUrl,
-                    width: 70.0,
-                    height: 70.0,
-                    fit: BoxFit.cover,
+                // Imagen más grande
+                Container(
+                  width: 70.0,  // Aumentamos el tamaño de la imagen
+                  height: 70.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 1,
+                        blurRadius: 3,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.asset(
+                      imagenUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16.0),
+                // Información del insumo
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         nombre,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontSize: 18,  // Mayor tamaño para el nombre
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      const SizedBox(height: 8.0),
+                      const SizedBox(height: 6.0),
                       Text(
                         descripcion,
-                        style: const TextStyle(fontSize: 14, color: Colors.grey),
+                        style: TextStyle(
+                          fontSize: 14,  // Aumentamos el tamaño de la descripción
+                          color: Colors.grey[600],
+                        ),
+                        maxLines: 2,  // Permitimos 2 líneas para la descripción
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                 ),
-                CircleAvatar(
-                  radius: 5.0,
-                  backgroundColor: activo ? Colors.green : Colors.red,
-                  
+                // Indicador de estado
+                Container(
+                  width: 10.0,
+                  height: 10.0,
+                  margin: const EdgeInsets.only(left: 12.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: activo ? Colors.green : Colors.red,
+                  ),
                 ),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
+      );
+    }
 }

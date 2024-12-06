@@ -23,8 +23,11 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
     const InsumosPage(), // Página de insumo
     const EmployeesPage(), // Página de empleados
     const ReservasWidget(), // Página de reservas
-     OrderProductionPage(), // Página de órdenes de producción
+     const OrderProductionPage(), // Página de órdenes de producción
   ];
+
+  // Color vino tinto
+  final Color _selectedColor = const Color(0xFF8B0000);
 
   // Cambiar de página según el índice seleccionado
   void _onItemTapped(int index) {
@@ -36,8 +39,12 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[
-          _selectedIndex], // Muestra la página según el índice seleccionado
+      appBar: AppBar(
+        // Establecer el color de fondo del AppBar según la selección
+        backgroundColor: _selectedColor,
+        title: Text(_getAppBarTitle()),
+      ),
+      body: _pages[_selectedIndex], // Muestra la página según el índice seleccionado
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -63,10 +70,27 @@ class _PaginaPrincipalWidgetState extends State<PaginaPrincipalWidget> {
         ],
         currentIndex: _selectedIndex, // Índice actual
         selectedItemColor: Colors.blue, // Color de los íconos seleccionados
-        unselectedItemColor:
-            Colors.grey, // Color de los íconos no seleccionados
+        unselectedItemColor: Colors.grey, // Color de los íconos no seleccionados
         onTap: _onItemTapped, // Cambia de página al tocar un ícono
       ),
     );
+  }
+
+  // Obtener el título del AppBar según la página seleccionada
+  String _getAppBarTitle() {
+    switch (_selectedIndex) {
+      case 0:
+        return '  ';
+      case 01:
+        return 'Insumo';
+      case 2:
+        return 'Empleado';
+      case 3:
+        return 'Reservas';
+      case 4:
+        return 'Producción';
+      default:
+        return 'Página Principal';
+    }
   }
 }

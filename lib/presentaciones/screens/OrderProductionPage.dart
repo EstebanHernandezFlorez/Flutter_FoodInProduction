@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,12 +16,14 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: OrderProductionPage(),
+      home: const OrderProductionPage(),
     );
   }
 }
 
 class OrderProductionPage extends StatelessWidget {
+  const OrderProductionPage({super.key});
+
   // Función para mostrar el modal de detalles
   void showOrderDetailModal(BuildContext context, String name, String detail,
       String status, String startTime, String endTime) {
@@ -27,7 +31,7 @@ class OrderProductionPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Detalles de la Orden'),
+          title: const Text('Detalles de la Orden'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,20 +74,20 @@ class OrderProductionPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Due',
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Jueves, 10:00am',
                       style: TextStyle(
                         fontSize: 28,
@@ -93,8 +97,8 @@ class OrderProductionPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                const Text(
+                SizedBox(height: 16),
+                Text(
                   'Órdenes acabadas de iniciar',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
