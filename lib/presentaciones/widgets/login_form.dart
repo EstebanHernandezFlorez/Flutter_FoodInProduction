@@ -66,13 +66,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                     shape: BoxShape.circle,
                   ),
                   child: Image.asset(
-                    'assets/images/IconoFIP.png', // Asegúrate de tener esta imagen en tu proyecto
+                    'lib/assets/images/IconoFIP.png', // Asegúrate de tener esta imagen en tu proyecto
                     fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 const Text(
-                  'Inicio de sesión',
+                  'Bienvenido',
                   style: TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.w600,
@@ -81,16 +81,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                 const SizedBox(height: 32.0),
                 // Formulario de login
                 Material(
-                  color: Colors.transparent,
-                  elevation: 2.0,
+                  color:
+                      Colors.transparent, // Hacer que el fondo sea transparente
+                  elevation: 0.0, // Eliminar la elevación para evitar sombras
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: Container(
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16.0),
+                    decoration: const BoxDecoration(
+                      color:
+                          Colors.transparent, // Eliminar fondo blanco o oscuro
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(24.0),
@@ -101,8 +102,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                             controller: _usernameController,
                             decoration: InputDecoration(
                               labelText: 'Usuario',
+                              labelStyle: const TextStyle(
+                                  color: Colors.black), // Color de la etiqueta
+                              filled: false, // Sin fondo
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.black), // Color del borde
                               ),
                             ),
                           ),
@@ -113,8 +119,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                             obscureText: !_passwordVisible,
                             decoration: InputDecoration(
                               labelText: 'Contraseña',
+                              labelStyle: const TextStyle(
+                                  color: Colors.black), // Color de la etiqueta
+                              filled: false, // Sin fondo
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.black), // Color del borde
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -130,25 +141,20 @@ class _LoginWidgetState extends State<LoginWidget> {
                               ),
                             ),
                           ),
-
-                          Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                  onPressed: () {
-                                    // Aquí puedes agregar la lógica para restablecer la contraseña
-                                    Navigator.push(
-                                        context,
-                                        //MaterialPage Route se utiliza para navegar entre pantallas
-                                        MaterialPageRoute(
-                                          //
-                                          builder: (context) =>
-                                              const Forgotpassword(),
-                                        ));
-                                  },
-                                  child: const Text(
-                                    'Olvide mi contraseña',
-                                    style: TextStyle(color: Colors.blue),
-                                  ))),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ForgotPassword(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              'Olvidé mi contraseña',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ),
                           const SizedBox(height: 32.0),
                           // Botón de iniciar sesión
                           ElevatedButton(
@@ -163,8 +169,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   const Color.fromARGB(255, 155, 14, 14),
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 14.0),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 18.0,
+                                horizontal: 32.0,
+                              ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(25.0),
                               ),
@@ -172,8 +180,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                             child: const Text(
                               'Iniciar sesión',
                               style: TextStyle(
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                                 color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
